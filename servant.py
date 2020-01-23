@@ -60,14 +60,10 @@ def handle_received(sock: socket.socket, connection: socket.socket, client_addre
                 text='Received data is not json',
             )
         )
-        # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # sock.connect((client_address[0], settings.PUBLIC_PORT))
-        # sock.sendall(b'not valid input')
-
-    finally:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((client_address[0], settings.PUBLIC_PORT))
         sock.sendall(str.encode(JSON.dumps(result)))
+
 
     # parse data
     # handle data
