@@ -20,3 +20,7 @@ def handle_query_answer(json: dict, address: tuple, *args, **kwargs):
 
 def handle_follow(json: dict, address: tuple, *args, **kwargs):
     pass
+
+
+def handle_message(json: dict, address: tuple, *args, **kwargs):
+    pass
