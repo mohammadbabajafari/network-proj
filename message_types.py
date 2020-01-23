@@ -5,3 +5,18 @@ class MessageType:
     QUERY_ANSWER = 'QA'
     FOLLOW = 'F'
     ACCEPT = 'A'
+
+from handlers import *
+attrs = list(filter(lambda x: x[:2] != '__', dir(MessageType)))
+HANDLER = {}
+for attr in attrs:
+    HANDLER[eval('MessageType.'+attr)] = eval('handle_'+attr.lower())
+# HANDLERS = {
+#     MessageType.ERROR: handle_error,
+#     MessageType.ERROR: handle_error,
+#     MessageType.ERROR: handle_error,
+#     MessageType.ERROR: handle_error,
+#     MessageType.ERROR: handle_error,
+#     MessageType.ERROR: handle_error,
+#
+# }

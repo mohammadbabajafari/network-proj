@@ -38,7 +38,7 @@ def main():
             fu = t.submit(handle_received, sock, connection, client_address)
 
 
-def handle_received(sock: socket.socket, connection: socket.socket, client_address: str):
+def handle_received(sock: socket.socket, connection: socket.socket, client_address: tuple):
     rcv = connection.recv(settings.BUFFER_SIZE)
     print(rcv)
     data = b''
@@ -51,7 +51,7 @@ def handle_received(sock: socket.socket, connection: socket.socket, client_addre
 
     try:
         json = JSON.loads(data)
-        result = handle_json(json)
+        result = handle_json(json, client_address)
     except ValueError as e:
         result = dict(
             type=MessageType.ERROR,
