@@ -14,7 +14,7 @@ sock.connect(server_address)
 try:
 
     # Send data
-    message = b'This is the message.  It will be repeated.'
+    message = b''
     print('sending {!r}'.format(message))
     sock.sendall(message)
 
@@ -23,7 +23,7 @@ try:
     amount_expected = len(message)
 
     while amount_received < amount_expected:
-        data = sock.recv()
+        data = sock.recv(1024)
         amount_received += len(data)
         print('received {!r}'.format(data))
 
