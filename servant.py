@@ -3,8 +3,10 @@ import socket
 import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
-IP_ADDRESS = 'localhost'
-PORT = 10000
+import settings
+
+IP_ADDRESS = settings.MY_IP_ADDRESS
+PORT = settings.PUBLIC_PORT
 
 
 # Create a TCP/IP socket
@@ -34,14 +36,14 @@ def main():
 
 
 def handle_received(sock: socket.socket, connection: socket.socket, client_address: str):
-    rcv = connection.recv(5)
+    rcv = connection.recv(settings.BUFFER_SIZE)
     print(rcv)
     data = b''
     json = None
 
     while rcv:
         data += rcv
-        rcv = connection.recv(5)
+        rcv = connection.recv(settings.BUFFER_SIZE)
         print(rcv)
 
     try:
@@ -49,7 +51,7 @@ def handle_received(sock: socket.socket, connection: socket.socket, client_addre
     except ValueError as e:
         # client_address.split(':')
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(client_address[0], 10000)
+        sock.connect((client_address[0], settings.PUBLIC_PORT))
         sock.sendall(b'not valid input')
         return
     typ = json.get('type')
