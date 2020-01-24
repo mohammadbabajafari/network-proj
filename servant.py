@@ -1,22 +1,16 @@
-import json as JSON
+import json as _json
 import socket
-import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
 import settings
+from common_utils import send_p2p
+from init import initial_db
 from json_utils import handle_json
 from message_types import MessageType
 
 IP_ADDRESS = settings.MY_IP_ADDRESS
 PORT = settings.PUBLIC_PORT
-
-
-# Create a TCP/IP socket
-
-def folan():
-    for i in range(10):
-        print(i)
-    time.sleep(20)
+mongo_db = initial_db()
 
 
 def main():
@@ -50,26 +44,10 @@ def handle_received(sock: socket.socket, connection: socket.socket, client_addre
         print(rcv)
 
     try:
-        json = JSON.loads(data)
+        json = _json.loads(data)
         result = handle_json(json, client_address)
     except ValueError as e:
-        result = dict(
-            type=MessageType.ERROR,
-            status=500,
-            content=dict(
-                text='Received data is not json',
-            )
-        )
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((client_address[0], settings.PUBLIC_PORT))
-        sock.sendall(str.encode(JSON.dumps(result)))
-
-
-    # parse data
-    # handle data
-    # if data_type B -> handle broadcast
-    # if data_type Q -> handle query
-    # if data_type QA -> handle query answer
+        send_p2p(dict(text='Received data is not json'), MessageType.ERROR, 500, client_address)
 
 
 if __name__ == '__main__':
