@@ -1,6 +1,9 @@
 import tkinter as tk
 
 from threads import ServantThread
+from data import Data
+from threads import run_func_async
+from send_utils import *
 
 shift = 0
 
@@ -82,13 +85,15 @@ def renderList(mylist, command):
 def changeToFollowers():
     global viewFrame
     RerenderView()
-    renderList(["mammad", "ali", "shirin"], 'following')
+    myFollowers = Data.get_followers()
+    renderList(myFollowers, 'xyz')
 
 
 def changeToFollowing():
     global viewFrame
     RerenderView()
-    renderList(["mahshid", "asghar", "ladan"], 'xyz')
+    myFollowings = Data.get_followings()
+    renderList(myFollowings, 'following')
 
 
 def changeToAddFollower():
@@ -139,7 +144,7 @@ followingBtn = tk.Button(ActionButtonsFrame, text='Follwings', width=50,
                          borderwidth="0", bg="#00bcd4", fg="white", command=changeToFollowing)
 followingBtn.grid(row=1, column=0, columnspan="1", padx=10, pady=3)
 
-addFollower = tk.Button(ActionButtonsFrame, text='Add a Follower', width=50,
+addFollower = tk.Button(ActionButtonsFrame, text='Follow Someone!', width=50,
                         borderwidth="0", bg="#00bcd4", fg="white", command=changeToAddFollower)
 addFollower.grid(row=2, column=0, columnspan="1", padx=10, pady=3)
 
@@ -158,16 +163,20 @@ queryBtn.grid(row=4, column=0, columnspan="1", padx=10, pady=(3, 10))
 def submitBroadcast(broadcastInput):
     broadcast = broadcastInput.get("1.0", 'end-1c')
     print(broadcast)
+    run_func_async(send_broadcast, broadcast)
 
 
 def requestAddFollower(ipInput):
     ip = ipInput.get()
     print(ip)
+    run_func_async(send_follow, ip)
+    
 
 
 def submitQuery(QueryInput):
     query = QueryInput.get("1.0", 'end-1c')
     print(query)
+    run_func_async(send_query, query)
 
 
 def Unfollow(selected):
