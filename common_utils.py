@@ -34,4 +34,4 @@ def send_flood(content: dict, typ: str, status: int, uuid: str):  # q,b send to 
         f_list = Data.get_followers()
 
     for ip in f_list:
-        base_send(data, ip)
+        base_send(data, (ip,))

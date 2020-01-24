@@ -15,7 +15,7 @@ def send_follow(ip: str):
 
 def send_broadcast(message: str):
     time = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
-    content = {'text': message, 'timestamp': time, 'srcp': MY_IP_ADDRESS}
+    content = {'text': message, 'timestamp': time, 'src': MY_IP_ADDRESS}
     uuid_str = str(uuid.uuid4())
     add_uuid_to_db(uuid_str, message, time)
     send_flood(content, MessageType.BROADCAST, 250, uuid_str)
