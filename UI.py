@@ -23,6 +23,19 @@ def dismissMessage(messageFrame):
     messageFrame.grid_forget()
     ReinitialFrames()
 
+# CALL from above
+def openDialog(message):
+  top = tk.Toplevel()
+  top.title('dialog')
+  messageFrame = tk.LabelFrame(top, text="new Message! ", width=60)
+  messageFrame.grid(row=0, column=0, padx=10, pady=10)
+  label = tk.Label(messageFrame, text=message, width=50)
+  label.grid(row=0, column=0)
+  submit = tk.Button(top, text="Dismiss", width=50,
+                     borderwidth="0", bg="#f44336", fg="white", command=top.destroy)
+  submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
+
+# CALL from above
 
 def newMessage(sender, message):
     global shift
@@ -44,6 +57,8 @@ def newMessage(sender, message):
 
 
 newMessage("Ali Beigi", "sdasdsd")
+openDialog('this is a new message')
+
 
 
 def RerenderView():
@@ -167,3 +182,4 @@ if __name__ == '__main__':
     thread = ServantThread()
     thread.start()
     root.mainloop()
+
