@@ -2,13 +2,16 @@ from common_utils import send_flood
 from data import Data
 from send_utils import send_accept
 
-
 def handle_accept(json: dict, address: tuple, *args, **kwargs):
-    pass
 
+    Data.add_following(address[0])
+    alert_message = "user" , address[0] , "followed successfuly"
+    #show accept_alert(alert_message)
 
 def handle_error(json: dict, address: tuple, *args, **kwargs):
-    pass
+    content = json.get('content')
+    alert_message = content.get('text')
+    #show accept_alert(alert_message)
 
 
 def handle_broadcast(json: dict, address: tuple, *args, **kwargs):

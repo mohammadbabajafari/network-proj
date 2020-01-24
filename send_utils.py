@@ -1,7 +1,6 @@
 from common_utils import send_flood, send_p2p
 from message_types import MessageType
-from settings import PUBLIC_PORT
-from local_settings import MY_IP_ADDRESS
+from settings import PUBLIC_PORT, MY_IP_ADDRESS
 import uuid 
 import datetime
 
