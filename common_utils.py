@@ -23,7 +23,7 @@ def send_p2p(content: dict, typ: str, status: int, address):  # msg acc error qa
 
 def send_flood(content: dict, typ: str, status: int, uuid: str):  # q,b send to all  type content uuid
 
-    data = {'type': typ, 'status': status, 'content': content, 'uuid': uuid}
+    data = {'type': typ, 'status': status, 'content': content, 'id': id}
 
     f_list = list()
 

@@ -5,7 +5,7 @@ mydb = initial_db()
 mycol = mydb[MONGO_COL_NAME]
 
 def add_uuid_to_db(uuid: str, message: str, timestamp: str ):
-    my_dict = { "uuid": uuid, "text": message, "timestamp": timestamp }
+    my_dict = { "id": uuid, "text": message, "timestamp": timestamp }
     x = mycol.insert_one(my_dict)
 
 def search_text_db(message: str):
