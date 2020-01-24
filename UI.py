@@ -56,10 +56,6 @@ def newMessage(sender, message):
     submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
 
 
-newMessage("Ali Beigi", "sdasdsd")
-openDialog('this is a new message')
-
-
 
 def RerenderView():
     global viewFrame
