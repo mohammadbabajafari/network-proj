@@ -27,10 +27,10 @@ def dismissMessage(messageFrame):
     ReinitialFrames()
 
 # CALL from above
-def openDialog(message):
+def openDialog(message, title = 'New Message!'):
   top = tk.Toplevel()
   top.title('dialog')
-  messageFrame = tk.LabelFrame(top, text="new Message! ", width=60)
+  messageFrame = tk.LabelFrame(top, text = title, width=60)
   messageFrame.grid(row=0, column=0, padx=10, pady=10)
   label = tk.Label(messageFrame, text=message, width=50)
   label.grid(row=0, column=0)
@@ -40,23 +40,23 @@ def openDialog(message):
 
 # CALL from above
 
-def newMessage(sender, message):
-    global shift
-    global ActionButtonsFrame
+# def newMessage(sender, message):
+#     global shift
+#     global ActionButtonsFrame
 
-    shift = 1
-    ReinitialFrames()
-    ActionButtonsFrame.grid_forget()
-    ActionButtonsFrame.grid(row=1, column=0, columnspan=4)
+#     shift = 1
+#     ReinitialFrames()
+#     ActionButtonsFrame.grid_forget()
+#     ActionButtonsFrame.grid(row=1, column=0, columnspan=4)
 
-    messageFrame = tk.LabelFrame(root, text="from: " + sender, width=30)
-    messageFrame.grid(row=0, column=0, columnspan=2, padx=10, pady=20)
-    T = tk.Text(messageFrame, height=10, width=30)
-    T.grid(row=0, column=0, padx=10, pady=10)
-    T.insert(tk.END, message)
-    submit = tk.Button(messageFrame, text='Dismiss', width=50,
-                       borderwidth="0", bg="#f44336", fg="white", command=lambda: dismissMessage(messageFrame))
-    submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
+#     messageFrame = tk.LabelFrame(root, text="from: " + sender, width=30)
+#     messageFrame.grid(row=0, column=0, columnspan=2, padx=10, pady=20)
+#     T = tk.Text(messageFrame, height=10, width=30)
+#     T.grid(row=0, column=0, padx=10, pady=10)
+#     T.insert(tk.END, message)
+#     submit = tk.Button(messageFrame, text='Dismiss', width=50,
+#                        borderwidth="0", bg="#f44336", fg="white", command=lambda: dismissMessage(messageFrame))
+#     submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
 
 
 
