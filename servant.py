@@ -3,7 +3,6 @@ import socket
 from concurrent.futures.thread import ThreadPoolExecutor
 
 import settings
-from common_utils import send_p2p
 from init import initial_db
 from json_utils import handle_json
 from message_types import MessageType
@@ -22,7 +21,7 @@ def main():
     sock.bind(server_address)
 
     # Listen for incoming connections
-    sock.listen(1)
+    sock.listen(10)
     with ThreadPoolExecutor(max_workers=8) as t:
         while True:
             # Wait for a connection
@@ -33,6 +32,7 @@ def main():
 
 
 def handle_received(sock: socket.socket, connection: socket.socket, client_address: tuple):
+    from common_utils import send_p2p
     rcv = connection.recv(settings.BUFFER_SIZE)
     print(rcv)
     data = b''
