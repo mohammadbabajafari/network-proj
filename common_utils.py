@@ -16,7 +16,8 @@ def base_send(data: dict, address: tuple):
 
 
 def send_p2p(content: dict, typ: str, status: int, address):  # msg acc error qa   send to one specific   content type
-
+    if isinstance(address, str):
+        address = (address, settings.PUBLIC_PORT)
     data = {'type': typ, 'status': status, 'content': content}
     base_send(data, address)
 

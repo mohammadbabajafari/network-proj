@@ -6,6 +6,8 @@ MONGO_URL = 'mongodb://localhost:27017/'
 MONGO_DB_NAME = 'network'
 MONGO_COL_NAME = 'broadcast_messages'
 
+TTL = 5
+
 try:
     from local_settings import *
 except ImportError as e:
