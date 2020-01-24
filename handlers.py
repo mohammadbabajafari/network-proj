@@ -22,7 +22,8 @@ def handle_broadcast(json: dict, address: tuple, *args, **kwargs):
     if not Data.has_flood_received(json.get('id')):
         Data.add_floods_received(json.get('id'))
         openDialog(json['content'].get('text'), title=f'Broadcast: {address[0]}')
-        send_flood(json.get('content'), json.get('type'), json.get('status'), json.get('id'))
+        send_flood(json.get('content'), json.get('type'), json.get('status'), json.get('id'),
+                   [address[0], json['content'].get('src')])
 
 
 def handle_query(json: dict, address: tuple, *args, **kwargs):

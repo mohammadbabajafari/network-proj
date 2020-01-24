@@ -21,7 +21,8 @@ def send_p2p(content: dict, typ: str, status: int, address):  # msg acc error qa
     base_send(data, address)
 
 
-def send_flood(content: dict, typ: str, status: int, uuid: str):  # q,b send to all  type content uuid
+def send_flood(content: dict, typ: str, status: int, uuid: str,
+               black_list: list = []):  # q,b send to all  type content uuid
 
     data = {'type': typ, 'status': status, 'content': content, 'id': uuid}
 
@@ -32,6 +33,12 @@ def send_flood(content: dict, typ: str, status: int, uuid: str):  # q,b send to 
 
     elif typ == MessageType.BROADCAST:
         f_list = Data.get_followers()
+
+    for bl in black_list:
+        try:
+            f_list.remove(bl)
+        except ValueError as e:
+            pass
 
     for ip in f_list:
         base_send(data, (ip,))
