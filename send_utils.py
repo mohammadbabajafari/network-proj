@@ -13,14 +13,14 @@ def send_follow(ip: str):
     tupleIp = (ip, PUBLIC_PORT)
     send_p2p(content, MessageType.FOLLOW, 150, tupleIp)
 
-def broadcast_message(message: str):
+def send_broadcast(message: str):
     time = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
     content = {'text': message, 'timestamp': time, 'srcp': MY_IP_ADDRESS}
     uuid_str = str(uuid.uuid4())
     add_uuid_to_db(uuid_str, message, time)
     send_flood(content, MessageType.BROADCAST, 250, uuid_str)
 
-def search_message(message: str):
+def send_query(message: str):
     content = {'text': message, 'timestamp': '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()), 'srcp': MY_IP_ADDRESS}
     uuid_str = str(uuid.uuid4())
     send_flood(content, MessageType.QUERY, 270, uuid_str)

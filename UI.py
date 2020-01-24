@@ -127,7 +127,7 @@ def changeToQuery():
     queryText.grid(row=0, column=1, columnspan=3, pady=(10, 5), padx=(5, 10))
 
     submit = tk.Button(viewFrame, text='Search this Query', width=50,
-                       borderwidth="0", bg="#2e7d32", fg="white", command=lambda: submitQuery(queryText))
+                       borderwidth="0", highlightbackground="#2e7d32", fg="white", command=lambda: submitQuery(queryText))
     submit.grid(row=2, column=0, columnspan="2", padx=10, pady=(3, 10))
 
 
