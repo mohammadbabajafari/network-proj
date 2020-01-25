@@ -21,8 +21,8 @@ def handle_error(json: dict, address: tuple, *args, **kwargs):
 
 def handle_broadcast(json: dict, address: tuple, *args, **kwargs):
     from UI import openDialog
-    if not Data.has_flood_received(json.get('id')):
-        Data.add_floods_received(json.get('id'))
+    if not Data.has_broadcast_received(json.get('id')):
+        Data.add_broadcast_received(json.get('id'))
         openDialog(json['content'].get('text'), title=f'Broadcast: {address[0]}')
         send_flood(json.get('content'), json.get('type'), json.get('status'), json.get('id'),
                    black_list=[address[0], json['content'].get('src')])
