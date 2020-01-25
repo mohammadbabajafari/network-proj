@@ -35,6 +35,9 @@ def send_flood(content: dict, typ: str, status: int, uuid: str,
     elif typ == MessageType.BROADCAST:
         f_list = Data.get_followers()
 
+    elif typ == MessageType.LEAVE:
+        f_list = Data.get_followers() + Data.get_followings()
+
     for bl in black_list:
         try:
             f_list.remove(bl)
