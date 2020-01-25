@@ -79,13 +79,18 @@ def handle_query_answer(json: dict, address: tuple, *args, **kwargs):
 
 
 def handle_follow(json: dict, address: tuple, *args, **kwargs):
+    from UI import openDialog
     Data.add_follower(address[0])
+    openDialog(f'{address[0]} followed you!')
     send_accept(address)
 
 
 def handle_message(json: dict, address: tuple, *args, **kwargs):
+    from UI import openDialog
     send_accept(address)
+    openDialog(f'{address[0]} left network!')
 
 
 def handle_leave(json: dict, address: tuple, *args, **kwargs):
     Data.leave(address[0])
+
