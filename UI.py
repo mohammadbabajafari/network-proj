@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from threads import ServantThread
 from data import Data
+from threads import ServantThread
 from threads import run_func_async
 from send_utils import *
 
@@ -26,17 +26,19 @@ def dismissMessage(messageFrame):
     messageFrame.grid_forget()
     ReinitialFrames()
 
+
 # CALL from above
-def openDialog(message, title = 'New Message!'):
-  top = tk.Toplevel()
-  top.title('dialog')
-  messageFrame = tk.LabelFrame(top, text = title, width=60)
-  messageFrame.grid(row=0, column=0, padx=10, pady=10)
-  label = tk.Label(messageFrame, text=message, width=50)
-  label.grid(row=0, column=0)
-  submit = tk.Button(top, text="Dismiss", width=50,
-                     borderwidth="0", bg="#f44336", fg="white", command=top.destroy)
-  submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
+def openDialog(message, title='New Message!'):
+    top = tk.Toplevel()
+    top.title('dialog')
+    messageFrame = tk.LabelFrame(top, text=title, width=60)
+    messageFrame.grid(row=0, column=0, padx=10, pady=10)
+    label = tk.Label(messageFrame, text=message, width=50)
+    label.grid(row=0, column=0)
+    submit = tk.Button(top, text="Dismiss", width=50,
+                       borderwidth="0", bg="#f44336", fg="white", command=top.destroy)
+    submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
+
 
 # CALL from above
 
@@ -57,7 +59,6 @@ def openDialog(message, title = 'New Message!'):
 #     submit = tk.Button(messageFrame, text='Dismiss', width=50,
 #                        borderwidth="0", bg="#f44336", fg="white", command=lambda: dismissMessage(messageFrame))
 #     submit.grid(row=1, column=0, columnspan="1", padx=10, pady=(3, 10))
-
 
 
 def RerenderView():
@@ -132,7 +133,8 @@ def changeToQuery():
     queryText.grid(row=0, column=1, columnspan=3, pady=(10, 5), padx=(5, 10))
 
     submit = tk.Button(viewFrame, text='Search this Query', width=50,
-                       borderwidth="0", highlightbackground="#2e7d32", fg="white", command=lambda: submitQuery(queryText))
+                       borderwidth="0", highlightbackground="#2e7d32", fg="white",
+                       command=lambda: submitQuery(queryText))
     submit.grid(row=2, column=0, columnspan="2", padx=10, pady=(3, 10))
 
 
@@ -170,7 +172,6 @@ def requestAddFollower(ipInput):
     ip = ipInput.get()
     print(ip)
     run_func_async(send_follow, ip)
-    
 
 
 def submitQuery(QueryInput):
@@ -185,6 +186,6 @@ def Unfollow(selected):
 
 if __name__ == '__main__':
     thread = ServantThread()
+    thread.daemon = True
     thread.start()
     root.mainloop()
-

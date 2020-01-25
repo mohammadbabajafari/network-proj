@@ -14,6 +14,7 @@ class UICallThread(threading.Thread):
     kwargs = None
 
     def set_function(self, func, *args, **kwargs):
+        # self.daemon = True
         self.func = func
         self.args = args
         self.kwargs = kwargs

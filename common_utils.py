@@ -43,3 +43,5 @@ def send_flood(content: dict, typ: str, status: int, uuid: str,
 
     for ip in f_list:
         base_send(data, (ip,))
+
+    return f_list
