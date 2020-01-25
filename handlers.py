@@ -1,6 +1,8 @@
+import settings
 from common_utils import send_flood
 from data import Data
-from send_utils import send_accept
+from db_utils import search_text_db
+from send_utils import send_accept, send_query_answer
 
 
 def handle_accept(json: dict, address: tuple, *args, **kwargs):
@@ -23,17 +25,51 @@ def handle_broadcast(json: dict, address: tuple, *args, **kwargs):
         Data.add_floods_received(json.get('id'))
         openDialog(json['content'].get('text'), title=f'Broadcast: {address[0]}')
         send_flood(json.get('content'), json.get('type'), json.get('status'), json.get('id'),
-                   [address[0], json['content'].get('src')])
+                   black_list=[address[0], json['content'].get('src')])
+    else:
+        print('hbroadcast else')
 
 
 def handle_query(json: dict, address: tuple, *args, **kwargs):
-    if not Data.has_flood_received(json.get('id')):
-        Data.add_floods_received(json.get('id'))
-        send_flood(json.get('content'), json.get('type'), json.get('status'), json.get('id'))
+    if not Data.is_greater_query_received(json.get('id'), json['content']['TTL']):
+        Data.add_query_received(json.get('id'), json['content']['TTL'])
+        if Data.is_waiting_answered(json['id']):
+            print(f'{json["id"]} has been answered')
+            return
+
+        res = search_text_db(json['content'].get('text'))
+        content = json['content']
+        if res:
+            res['src'] = settings.MY_IP_ADDRESS
+            res['uuid'] = json.get('id')
+            res_content = res
+            rcv_from = Data.get_waiting(json['id'])['received_from']
+            send_query_answer(res_content, rcv_from)
+        # elif content['TTL'] == 0:
+        #     is_successful = False
+        #     res_content = dict()
+
+        else:
+            content['TTL'] -= 1
+            sent_to = send_flood(content, json.get('type'), json.get('status'), json.get('id'),
+                                 black_list=[address[0], json['content'].get('src')])
+            Data.add_waiting(json['id'], address[0], sent_to)
+            return
+
+    else:
+        print('hquery else')
 
 
 def handle_query_answer(json: dict, address: tuple, *args, **kwargs):
-    pass
+    content = json['content']
+    waiting = Data.get_waiting(content['uuid'])
+    if waiting is True:
+        print(f'{content["content"]} has been answered before.')
+    elif isinstance(waiting, dict):
+        rcv_from = waiting['received_from']
+        send_query_answer(content, rcv_from)
+    else:
+        print('Query has been removed.')
 
 
 def handle_follow(json: dict, address: tuple, *args, **kwargs):

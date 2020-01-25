@@ -1,7 +1,14 @@
+from datetime import datetime
+
+import settings
+
+
 class Data:
     __followers = []
     __followings = []
-    __floods_received = []
+    __broadcast_received = []
+    __query_received = {}
+    __waiting_for_answer = {}
 
     @classmethod
     def get_followers(cls):
@@ -32,14 +39,67 @@ class Data:
             cls.__followings.remove(following)
 
     @classmethod
-    def get_floods_received(cls):
-        return cls.__floods_received
+    def get_broadcast_received(cls):
+        return cls.__broadcast_received
 
     @classmethod
-    def add_floods_received(cls, flood_received_id):
-        if flood_received_id not in cls.__floods_received:
-            cls.__floods_received.append(flood_received_id)
+    def add_broadcast_received(cls, broadcast_received_id):
+        if broadcast_received_id not in cls.__broadcast_received:
+            cls.__broadcast_received.append(broadcast_received_id)
 
     @classmethod
-    def has_flood_received(cls, flood_received_id):
-        return flood_received_id in cls.__floods_received
+    def has_broadcast_received(cls, broadcast_received_id):
+        return broadcast_received_id in cls.__broadcast_received
+
+    @classmethod
+    def get_query_received(cls):
+        return cls.__query_received
+
+    @classmethod
+    def add_query_received(cls, query_received_id, ttl):
+        k = query_received_id
+        v = ttl
+        if k not in cls.__query_received.keys():
+            cls.__query_received[k] = v
+        elif cls.__query_received[k] < v:
+            cls.__query_received[k] = v
+
+    @classmethod
+    def is_greater_query_received(cls, query_received_id, ttl):
+        k = query_received_id
+        v = ttl
+        return k in cls.__query_received.keys() and cls.__query_received[k] > v
+
+    @classmethod
+    def get_waiting(cls, uuid):
+        try:
+            return cls.__waiting_for_answer[uuid]
+        except KeyError:
+            return None
+
+    @classmethod
+    def add_waiting(cls, uuid, received_from, sent_to):
+        if uuid not in cls.__waiting_for_answer.keys():
+            value = dict(received_from=received_from, sent_to=sent_to, time=datetime.now())
+            cls.__waiting_for_answer[uuid] = value
+        elif cls.__waiting_for_answer[uuid] is True:
+            pass
+        else:
+            cls.__waiting_for_answer[uuid]['received_from'] = received_from
+            cls.__waiting_for_answer[uuid]['sent_to'].append(sent_to)
+            cls.__waiting_for_answer[uuid]['time'] = datetime.now()
+
+    @classmethod
+    def set_waiting_as_answered(cls, uuid):
+        cls.__waiting_for_answer[uuid] = True
+
+    @classmethod
+    def clean_waiting(cls):
+        for k, v in cls.__waiting_for_answer.items():
+            if v is not True:
+                if datetime.now() - v.get('time') > settings.TTW:
+                    cls.__waiting_for_answer.pop(k)
+
+    @classmethod
+    def is_waiting_answered(cls, uuid):
+        return cls.__waiting_for_answer[uuid] is True
