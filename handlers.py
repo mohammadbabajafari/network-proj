@@ -86,11 +86,11 @@ def handle_follow(json: dict, address: tuple, *args, **kwargs):
 
 
 def handle_message(json: dict, address: tuple, *args, **kwargs):
-    from UI import openDialog
     send_accept(address)
-    openDialog(f'{address[0]} left network!')
 
 
 def handle_leave(json: dict, address: tuple, *args, **kwargs):
+    from UI import openDialog
     Data.leave(address[0])
+    openDialog(f'{address[0]} left network!')
 
