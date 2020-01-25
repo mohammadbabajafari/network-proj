@@ -30,7 +30,8 @@ def send_query(message: str):
     content = {'text': message, 'timestamp': '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()),
                'src': MY_IP_ADDRESS, 'TTL': TTL}
     uuid_str = str(uuid.uuid4())
-    send_flood(content, MessageType.QUERY, 270, uuid_str)
+    sent_to = send_flood(content, MessageType.QUERY, 270, uuid_str)
+    Data.add_waiting(uuid_str, None, sent_to)
 
 
 def send_query_answer(content: dict, address: str):

@@ -40,9 +40,9 @@ def handle_query(json: dict, address: tuple, *args, **kwargs):
         res = search_text_db(json['content'].get('text'))
         content = json['content']
         if res:
-            res['src'] = settings.MY_IP_ADDRESS
-            res['uuid'] = json.get('id')
-            res_content = res
+            res_content = dict(data= res)
+            res_content['src'] = settings.MY_IP_ADDRESS
+            res_content['uuid'] = json.get('id')
             rcv_from = Data.get_waiting(json['id'])['received_from']
             send_query_answer(res_content, rcv_from)
         # elif content['TTL'] == 0:
@@ -61,13 +61,18 @@ def handle_query(json: dict, address: tuple, *args, **kwargs):
 
 
 def handle_query_answer(json: dict, address: tuple, *args, **kwargs):
+    from UI import openDialog
     content = json['content']
     waiting = Data.get_waiting(content['uuid'])
     if waiting is True:
         print(f'{content["content"]} has been answered before.')
     elif isinstance(waiting, dict):
+
         rcv_from = waiting['received_from']
-        send_query_answer(content, rcv_from)
+        if rcv_from:
+            send_query_answer(content, rcv_from)
+        else:
+            openDialog(str(content['data']), title=f'Query Answer: {content["src"]}')
     else:
         print('Query has been removed.')
 
