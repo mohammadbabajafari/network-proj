@@ -11,5 +11,11 @@ def add_uuid_to_db(uuid: str, message: str, timestamp: str ):
 def search_text_db(message: str):
 
     myquery = { '$or':[{'text':message},{'text': {'$regex':message}}]}
-    dict_result = mycol.find(myquery)
-    return dict_result
+    #dict_result = mycol.find(myquery)
+    return list(mycol.find(myquery))
+
+
+if __name__ == "__main__":
+    search_text_db('sag')
+
+    
