@@ -1,8 +1,8 @@
 import tkinter as tk
 
-from send_utils import *
 from threads import ServantThread
 from threads import run_func_async
+from send_utils import *
 
 shift = 0
 
