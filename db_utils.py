@@ -11,8 +11,7 @@ def add_uuid_to_db(uuid: str, message: str, timestamp: str ):
 def search_text_db(message: str):
 
     myquery = { '$or':[{'text':message},{'text': {'$regex':message}}]}
-    #dict_result = mycol.find(myquery)
-    return list(mycol.find(myquery))
+    return list(mycol.find(myquery, { "_id": 0, "id": 1, "text": 1, "timestamp": 1 }))
 
 
 if __name__ == "__main__":
