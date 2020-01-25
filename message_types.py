@@ -6,6 +6,7 @@ class MessageType:
     FOLLOW = 'F'
     ACCEPT = 'A'
     MESSAGE = 'M'
+    LEAVE = 'L'
 
 from handlers import *
 attrs = list(filter(lambda x: x[:2] != '__', dir(MessageType)))

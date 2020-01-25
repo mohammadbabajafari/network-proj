@@ -40,10 +40,11 @@ def handle_query(json: dict, address: tuple, *args, **kwargs):
         res = search_text_db(json['content'].get('text'))
         content = json['content']
         if res:
-            res_content = dict(data= res)
+            res_content = dict(data=res)
             res_content['src'] = settings.MY_IP_ADDRESS
             res_content['uuid'] = json.get('id')
-            rcv_from = Data.get_waiting(json['id'])['received_from']
+            rcv_from = address[0]  # Data.get_waiting(json['id'])['received_from']
+            Data.add_waiting(json['id'], address[0], [])
             send_query_answer(res_content, rcv_from)
         # elif content['TTL'] == 0:
         #     is_successful = False
@@ -84,3 +85,7 @@ def handle_follow(json: dict, address: tuple, *args, **kwargs):
 
 def handle_message(json: dict, address: tuple, *args, **kwargs):
     send_accept(address)
+
+
+def handle_leave(json: dict, address: tuple, *args, **kwargs):
+    Data.leave(address[0])

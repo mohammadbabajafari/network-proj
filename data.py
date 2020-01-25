@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import uuid4
 
 import settings
 
@@ -37,6 +38,13 @@ class Data:
     def unfollow(cls, following):
         if following in cls.__followings:
             cls.__followings.remove(following)
+
+    @classmethod
+    def leave(cls, address: str):
+        if address in cls.__followings:
+            cls.__followings.remove(address)
+        if address in cls.__followers:
+            cls.__followers.remove(address)
 
     @classmethod
     def get_broadcast_received(cls):
@@ -102,4 +110,8 @@ class Data:
 
     @classmethod
     def is_waiting_answered(cls, uuid):
-        return cls.__waiting_for_answer[uuid] is True
+        return cls.__waiting_for_answer.get(uuid) is True
+
+
+if __name__ == '__main__':
+    print(Data.is_waiting_answered(str(uuid4())))

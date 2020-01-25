@@ -1,9 +1,8 @@
 import tkinter as tk
 
-from data import Data
+from send_utils import *
 from threads import ServantThread
 from threads import run_func_async
-from send_utils import *
 
 shift = 0
 
@@ -189,3 +188,4 @@ if __name__ == '__main__':
     thread.daemon = True
     thread.start()
     root.mainloop()
+    send_leave()

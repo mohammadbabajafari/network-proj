@@ -37,3 +37,7 @@ def send_query(message: str):
 def send_query_answer(content: dict, address: str):
     Data.set_waiting_as_answered(content['uuid'])
     send_p2p(content, MessageType.QUERY_ANSWER, 300, address)
+
+
+def send_leave():
+    send_flood({}, MessageType.LEAVE, 999, str(uuid.uuid4()))
