@@ -92,5 +92,5 @@ def handle_message(json: dict, address: tuple, *args, **kwargs):
 def handle_leave(json: dict, address: tuple, *args, **kwargs):
     from UI import openDialog
     Data.leave(address[0])
-    openDialog(f'{address[0]} left network!')
+    openDialog(f'{address[0]} left the network!')
 
