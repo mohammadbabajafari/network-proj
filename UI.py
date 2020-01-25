@@ -32,7 +32,8 @@ def openDialog(message, title='New Message!'):
     top.title('dialog')
     messageFrame = tk.LabelFrame(top, text=title, width=60)
     messageFrame.grid(row=0, column=0, padx=10, pady=10)
-    label = tk.Label(messageFrame, text=message, width=50)
+    label = tk.Label(messageFrame, text=message,
+                     width=50, height=10, wraplength=220)
     label.grid(row=0, column=0)
     submit = tk.Button(top, text="Dismiss", width=50,
                        borderwidth="0", bg="#f44336", fg="white", command=top.destroy)
@@ -132,7 +133,7 @@ def changeToQuery():
     queryText.grid(row=0, column=1, columnspan=3, pady=(10, 5), padx=(5, 10))
 
     submit = tk.Button(viewFrame, text='Search this Query', width=50,
-                       borderwidth="0", highlightbackground="#2e7d32", fg="white",
+                       borderwidth="0", bg="#2e7d32", fg="white",
                        command=lambda: submitQuery(queryText))
     submit.grid(row=2, column=0, columnspan="2", padx=10, pady=(3, 10))
 
